@@ -1,0 +1,1 @@
+# woc7.0-django-ecommerce-sakshipatadiya
