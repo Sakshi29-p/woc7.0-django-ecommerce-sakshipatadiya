@@ -1,0 +1,105 @@
+/* Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+header {
+    background-color: #f8f9fa;
+    padding: 1em 0;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #343a40;
+    padding: 0.5em 0;
+}
+nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+.hero {
+    background: url('../images/hero-image.jpg') no-repeat center center/cover;
+    height: 80vh;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.7);
+}
+.hero h2 {
+    font-size: 2.5em;
+    margin: 0.5em 0;
+}
+.hero a {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    border-radius: 5px;
+}
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 2em;
+}
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: center;
+    width: 250px;
+}
+.product-card img {
+    max-width: 100%;
+}
+.product-card h3 {
+    font-size: 1.2em;
+    margin: 0.5em 0;
+}
+.product-card p {
+    color: #555;
+}
+.product-card a {
+    background-color: #007bff;
+    color: white;
+    display: block;
+    margin: 1em 0;
+    padding: 0.5em;
+    text-decoration: none;
+}
+footer {
+    background-color: #f8f9fa;
+    padding: 1em 0;
+    text-align: center;
+}
+footer p {
+    margin: 0;
+}
+
+.auth-buttons {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.auth-buttons a {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    margin: 0 10px;
+    border-radius: 5px;
+}
