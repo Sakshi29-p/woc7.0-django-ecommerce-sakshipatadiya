@@ -1,43 +1,65 @@
-<html>
-    <head>
+{% load static %}
 
-    </head>
-    <body>
-        <form method="post">
-            {% csrf_token %}
-            <h2>Register</h2>
-            <hr>
-            {% if messages %}
-                <div class="alert alert-primary" role="alert">
-                    {% for message in messages %}
-                        {{ message }}
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <div class="form-group">
-                <label for="exampleInputFirstname1">First Name</label>
-                <input type="text" class="form-control" name="first_name" id="exampleInputFirstname1" aria-describedby="firstnameHelp" placeholder="Enter First Name">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/authentication.css' %}">
+  </head>
+  <body>
+    <div class="login-container">
+      <form method="post">
+        {% csrf_token %}
+        <div class="card shadow-lg p-4">
+            <h2 class="text-center mb-4 login-register-heading">Register</h2>
+          <hr>
+          
+          {% if messages %}
+            <div class="alert alert-primary" role="alert">
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
             </div>
-            <div class="form-group">
-                <label for="exampleInputLastname1">Last Name</label>
-                <input type="text" class="form-control" name="last_name" id="exampleInputLastname1" aria-describedby="lastnameHelp" placeholder="Enter lastname">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputUsername1">Username</label>
-                <input type="text" class="form-control" name="username" id="exampleInputUsername1" aria-describedby="usernameHelp" placeholder="Enter username">
-            </div>
+          {% endif %}
+          
+          <div class="form-group">
+            <label for="exampleInputFirstname1">First Name</label>
+            <input type="text" class="form-control" name="first_name" id="exampleInputFirstname1" placeholder="Enter First Name">
+          </div>
 
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email Address</label>
-              <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-    </body>
+          <div class="form-group">
+            <label for="exampleInputLastname1">Last Name</label>
+            <input type="text" class="form-control" name="last_name" id="exampleInputLastname1" placeholder="Enter Last Name">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputUsername1">Username</label>
+            <input type="text" class="form-control" name="username" id="exampleInputUsername1" placeholder="Enter Username">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email Address</label>
+            <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Enter Email">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Enter Password">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+          <div class="text-center mt-3">
+            <p>Already have an account? <a href="/login" class="btn btn-link">Login</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
 </html>
-

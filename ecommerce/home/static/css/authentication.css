@@ -22,7 +22,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2.login-heading {  /* Add a specific class to target this */
+h2.login-register-heading {  /* Add a specific class to target this */
     color: #007bff;
     text-align: center;
     font-size: 3em;  /* Larger font size */
