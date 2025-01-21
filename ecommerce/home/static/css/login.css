@@ -1,0 +1,68 @@
+/* Login and Register Page Styles */
+body {
+    background-color: #f8f9fa;  /* Keep the background consistent */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 2em;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2.login-heading {  /* Add a specific class to target this */
+    color: #007bff;
+    text-align: center;
+    font-size: 3em;  /* Larger font size */
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.btn {
+    font-size: 16px;
+    padding: 12px 15px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.alert {
+    margin-bottom: 15px;
+}
+
+.forgot-password, .register-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password:hover, .register-link:hover {
+    text-decoration: underline;
+}
+
+.text-center {
+    font-size: 14px;
+}
