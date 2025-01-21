@@ -4,12 +4,34 @@ from django.contrib.auth.models import User
 
 from django.contrib import messages
 
+from django.contrib.auth import authenticate,login
+
 # Create your views here.
 
 def index(request):
     return render(request,'index.html')
 
 def login_page(request):
+    if request.method =="POST":
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+
+        if not User.objects.filter(email=email).exists():
+            messages.error(request,'Account Not registered')
+            return redirect('/login/')
+        else:
+            usern = User.objects.get(email=email)
+        
+        user = authenticate(username=usern.username,password=password)
+        
+        if user is None:
+            messages.error(request,'Invalid Password')
+            return redirect('/login/')
+        else:
+            login(request,user)
+            return redirect('/')
+        
+
     return render(request, 'login.html')
 
 def register_page(request):
