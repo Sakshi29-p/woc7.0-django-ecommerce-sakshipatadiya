@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from django.contrib import messages
 
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 
 from .models import Product
 
@@ -14,7 +14,7 @@ def index(request):
     products = Product.objects.all()
     return render(request,'index.html',{'products':products})
 
-def login_page(request):
+def login_user(request):
     if request.method =="POST":
         password = request.POST.get('password')
         email = request.POST.get('email')
@@ -29,15 +29,21 @@ def login_page(request):
         
         if user is None:
             messages.error(request,'Invalid Password')
-            return redirect('/login/')
+            return redirect('login_user')
         else:
             login(request,user)
-            return redirect('/')
+            messages.success(request,("You have been logged in...."))
+            return redirect('index')
         
 
     return render(request, 'login.html')
 
-def register_page(request):
+def logout_user(request):
+    logout(request)
+    messages.success(request,("You have been logged out...."))
+    return redirect('/')
+
+def register_user(request):
     if request.method =="POST":
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -48,12 +54,12 @@ def register_page(request):
         user = User.objects.filter(username=username)
         if user.exists():
             messages.info(request,'Username already exists.')
-            return redirect('/register/')
+            return redirect('register_user')
         
         mail = User.objects.filter(email=email)
         if mail.exists():
             messages.info(request,'Email already registered.')
-            return redirect('/register/')
+            return redirect('register_user')
         
 
         user = User.objects.create(
@@ -65,9 +71,10 @@ def register_page(request):
 
         user.set_password(password)
         user.save()
-        messages.info(request,'Account created successfully.')
+        login(request,user)
+        messages.info(request,'Account created successfully......')
 
-        return redirect('/register/')
+        return redirect('index')
 
     return render(request, 'register.html')
 

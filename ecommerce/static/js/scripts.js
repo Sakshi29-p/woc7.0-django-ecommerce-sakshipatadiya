@@ -5,3 +5,8 @@
 */
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
+
+// Placeholder for future JavaScript functionalities.
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("JavaScript Loaded!");
+});
