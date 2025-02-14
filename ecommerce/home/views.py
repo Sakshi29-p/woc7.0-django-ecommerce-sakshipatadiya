@@ -70,3 +70,7 @@ def register_page(request):
         return redirect('/register/')
 
     return render(request, 'register.html')
+
+
+def about(request):
+    return  render(request, 'about.html')

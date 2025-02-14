@@ -27,10 +27,13 @@ class Customer(models.Model):
 # All the products
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    price = models.BigIntegerField()
+    price = models.BigIntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     description = models.CharField(max_length=250, default='', blank=True, null=True)
     image = models.ImageField(upload_to='uploads/products')
+
+    on_sale = models.BooleanField(default=False)
+    sale_price = models.BigIntegerField(default=0)
 
     def __str__(self):
         return self.name
