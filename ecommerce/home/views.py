@@ -6,10 +6,13 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate,login
 
+from .models import Product
+
 # Create your views here.
 
 def index(request):
-    return render(request,'index.html')
+    products = Product.objects.all()
+    return render(request,'index.html',{'products':products})
 
 def login_page(request):
     if request.method =="POST":
