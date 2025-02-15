@@ -13,6 +13,43 @@
 </header>
 
 <br>
+<div class="container">
+    {% if cart_products %}
+    {% for product in cart_products %}
+        <div class="card mb-3">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+
+                {% if product.on_sale %}
+                    <strike>
+                        Rs. {{ product.price }}
+                    </strike>
+                    &nbsp;
+                        Rs. {{ product.sale_price }}
+                {% else %}
+                        Rs. {{ product.price }}
+                {% endif %}
+                <br><br>
+                <a href="{% url 'index' %}" class="btn btn-secondary">Home</a>
+                </div>
+            </div>
+            </div>
+        </div>
+      {% endfor %}
+      {% else %}
+      Nothing is there in your cart...........
+      {% endif %}
+</div>
+
+
+
+
 <br>
 
 {% endblock %}
