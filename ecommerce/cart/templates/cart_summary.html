@@ -60,11 +60,19 @@
                   <button class="btn btn-secondary update-cart" data-index="{{ product.id }}" type="button">
                     Update
                   </button>
+                  <button class="btn btn-danger delete-product" data-index="{{ product.id }}" type="button">
+                    Remove
+                  </button>
                 </div>
             </div>
             </div>
         </div>
       {% endfor %}
+
+      <h3>
+        Total = Rs. {{ totals }}
+      </h3>
+      
       {% else %}
       Nothing is there in your cart...........
       {% endif %}
@@ -76,6 +84,8 @@
 <br>
 
 <script>
+
+    //updating the cart
     $(document).on('click', '.update-cart', function(e){
         e.preventDefault();
         var productid = $(this).data('index');
@@ -91,8 +101,6 @@
           },
   
           success: function(json){
-            // console.log(json)
-            // document.getElementById("cart_quantity").textContent = json.Qty
             location.reload();
           },
   
@@ -102,6 +110,31 @@
           
         });
     })
+
+    // deleting the product from cart
+    $(document).on('click', '.delete-product', function(e){
+        e.preventDefault();
+        
+        $.ajax({
+          type: 'POST',
+          url: "{% url 'cart_delete' %}",
+          data: {   
+            product_id: $(this).data('index'),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+          },
+  
+          success: function(json){
+            location.reload();
+          },
+  
+          error: function(xhr, errmsg, err){
+  
+          }
+          
+        });
+    })
+
   </script>
 
 {% endblock %}
