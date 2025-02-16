@@ -1,9 +1,10 @@
-from home.models import Product
+from home.models import Product,Profile
+import json
 
 class Cart():
     def __init__(self,request):
         self.session = request.session
-
+        self.request = request
         cart = self.session.get('session_key')
 
         if 'session_key' not in request.session:
@@ -12,6 +13,27 @@ class Cart():
         self.cart = cart
 
     
+    def db_add(self,product,quantity):
+        product_id = str(product)
+        product_qty = str(quantity)
+
+        if product_id in self.cart:
+            pass
+        else:
+            self.cart[product_id]=int(product_qty)
+
+        self.session.modified = True
+
+        # Deal with Logged in User
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # converting key '4' to "4"
+            carty = json.dumps(self.cart)
+            # carty = carty.replace("\'","\"")
+
+            current_user.update(old_cart=carty)
+
+
     def add(self,product,quantity):
         product_id = str(product.id)
         product_qty = str(quantity)
@@ -23,6 +45,15 @@ class Cart():
 
         self.session.modified = True
 
+        # Deal with Logged in User
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # converting key '4' to "4"
+            carty = json.dumps(self.cart)
+            # carty = carty.replace("\'","\"")
+
+            current_user.update(old_cart=carty)
+
     
     def update(self,product,quantity):
         product_id = str(product)
@@ -30,6 +61,15 @@ class Cart():
         self.cart[product_id]=product_qty
 
         self.session.modified = True
+
+         # Deal with Logged in User
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # converting key '4' to "4"
+            carty = json.dumps(self.cart)
+            # carty = carty.replace("\'","\"")
+
+            current_user.update(old_cart=carty)
 
         return self.cart
     
@@ -41,6 +81,15 @@ class Cart():
             del self.cart[product_id]
 
         self.session.modified=True
+
+        # Deal with Logged in User
+        if self.request.user.is_authenticated:
+            current_user = Profile.objects.filter(user__id=self.request.user.id)
+            # converting key '4' to "4"
+            carty = json.dumps(self.cart)
+            # carty = carty.replace("\'","\"")
+
+            current_user.update(old_cart=carty)
     
     def __len__(self):
         return len(self.cart)

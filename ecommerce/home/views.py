@@ -6,7 +6,13 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate,login,logout
 
-from .models import Product,Category
+from .models import Product,Category,Profile
+
+from django.db.models import Q
+
+import json
+
+from cart.cart import Cart
 
 # Create your views here.
 
@@ -32,6 +38,18 @@ def login_user(request):
             return redirect('login_user')
         else:
             login(request,user)
+
+            # shopping cart
+            current_user = Profile.objects.get(user__id=request.user.id)
+            saved_cart = current_user.old_cart
+            if saved_cart:
+                converted_cart = json.loads(saved_cart)
+                cart = Cart(request)
+
+                for key,value in converted_cart.items():
+                    cart.db_add(product=key,quantity=value)
+
+
             messages.success(request,("You have been logged in...."))
             return redirect('index')
         
@@ -96,3 +114,27 @@ def category(request,foo):
     except:
         messages.success(request,("That category doesnt exists....."))
         return redirect('index')
+    
+def allCategory(request):
+    categories = Category.objects.all()
+    return render(request,'allCategory.html',{'categories':categories})
+
+
+def update_user(request):
+    return render(request,'update_user.html',{})
+
+
+def search(request):
+    if request.method=="POST":
+        searched = request.POST['searched'] 
+
+        # Query the Products
+        searched = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched))
+
+        if not searched:
+            messages.success(request,("This type of product doesnt exists..."))
+            return render(request,"search.html",{})
+        else:
+            return render(request,"search.html",{'searched':searched})
+    else:
+        return render(request,"search.html",{})
