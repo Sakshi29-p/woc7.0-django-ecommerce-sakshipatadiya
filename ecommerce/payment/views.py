@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .models import ShippingAddress
+from .models import *
+from cart.cart import Cart
 
 # Create your views here.
 
@@ -40,6 +41,43 @@ def shipping_address(request):
         shipping_instance.save()
 
         messages.success(request, 'Shipping address updated successfully!')
-        return redirect('index') 
+        return 
+        # return redirect('index') 
 
     return render(request, 'shipping_address.html')
+
+
+@login_required(login_url='login_user')
+def checkout(request):
+    cart = Cart(request)
+    cart_products = cart.get_prods()
+    cart_quantity = cart.get_quants()
+    totals = cart.cart_totals()
+
+    return render(request,'checkout.html',{'cart_products':cart_products, 'quantities':cart_quantity, 'totals':totals})
+
+
+def process_order(request):
+    
+    if request.method == "POST":
+
+        cart = Cart(request)
+        totals = cart.cart_totals()
+
+        # creating shipping address
+        my_shipping = request.POST
+        user = request.user
+        full_name = my_shipping['shipping_full_name']
+        email = my_shipping['shipping_email']
+        shipping_address = f"{my_shipping['shipping_address']}\n{my_shipping['shipping_city']}\n{my_shipping['shipping_state']}\n{my_shipping['shipping_zipcode']}\n{my_shipping['shipping_country']}"
+        amount_paid = int(totals)
+
+        create_order = Order(user=user,email=email,full_name=full_name,shipping_address=shipping_address,amount_paid=amount_paid)
+        create_order.save()
+
+
+        messages.success(request, 'Order processed successfully!')
+    
+        return redirect('process_order')
+    
+    return render(request,"process_order.html",{})

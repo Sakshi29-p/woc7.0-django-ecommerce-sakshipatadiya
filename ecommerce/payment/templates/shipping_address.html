@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="login-container">
-      <form method="post">
+      <form method="post" action="{% url 'process_order' %}">
         {% csrf_token %}
         <div class="card shadow-lg p-4">
           <h2 class="text-center mb-4 login-register-heading">Shipping Information</h2>
@@ -41,7 +41,7 @@
 
           <div class="form-group">
             <label for="shipping_address">Address</label>
-            <input type="text" class="form-control" name="shipping_address" id="shipping_address" value="{{ user.profile.address1 }} {{ user.profile.address2 }}" placeholder="Enter Shipping Address">
+            <input type="text" class="form-control" name="shipping_address" id="shipping_address" value="{{ user.profile.address1 }}{{ user.profile.address2 }}" placeholder="Enter Shipping Address">
           </div>
 
           <div class="form-group">
@@ -64,10 +64,10 @@
             <input type="text" class="form-control" name="shipping_country" id="shipping_country" value="{{ user.profile.country }}" placeholder="Enter Country">
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block">Save Shipping Info</button>
+          <button type="submit" class="btn btn-primary btn-block">Pay Now</button>
 
           <div class="text-center mt-3">
-            <p><a href="/" class="btn btn-link">Go Back</a></p>
+            <p><a href="{% url 'checkout'}" class="btn btn-link">Go Back</a></p>
           </div>
         </div>
       </form>
