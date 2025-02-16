@@ -29,7 +29,6 @@ class Cart():
             current_user = Profile.objects.filter(user__id=self.request.user.id)
             # converting key '4' to "4"
             carty = json.dumps(self.cart)
-            # carty = carty.replace("\'","\"")
 
             current_user.update(old_cart=carty)
 
@@ -50,7 +49,6 @@ class Cart():
             current_user = Profile.objects.filter(user__id=self.request.user.id)
             # converting key '4' to "4"
             carty = json.dumps(self.cart)
-            # carty = carty.replace("\'","\"")
 
             current_user.update(old_cart=carty)
 
@@ -67,7 +65,6 @@ class Cart():
             current_user = Profile.objects.filter(user__id=self.request.user.id)
             # converting key '4' to "4"
             carty = json.dumps(self.cart)
-            # carty = carty.replace("\'","\"")
 
             current_user.update(old_cart=carty)
 
@@ -87,7 +84,6 @@ class Cart():
             current_user = Profile.objects.filter(user__id=self.request.user.id)
             # converting key '4' to "4"
             carty = json.dumps(self.cart)
-            # carty = carty.replace("\'","\"")
 
             current_user.update(old_cart=carty)
     

@@ -62,6 +62,8 @@ def process_order(request):
     if request.method == "POST":
 
         cart = Cart(request)
+        cart_products = cart.get_prods()
+        cart_quantity = cart.get_quants()
         totals = cart.cart_totals()
 
         # creating shipping address
@@ -75,9 +77,58 @@ def process_order(request):
         create_order = Order(user=user,email=email,full_name=full_name,shipping_address=shipping_address,amount_paid=amount_paid)
         create_order.save()
 
+        # for order items table
+        order_id = create_order.pk
+        
+        for product in cart_products:
+            product_id = product.id
+
+            if product.on_sale:
+                price = product.sale_price
+            else:
+                price = product.price
+
+            quantity = cart_quantity[str(product_id)]
+
+            create_order_item = OrderItem(order_id=order_id,product_id=product_id,user=user,quantity=quantity,price=price)
+            create_order_item.save()
+
+        for key in list(request.session.keys()):
+            if key == "session_key":
+                del request.session[key]
 
         messages.success(request, 'Order processed successfully!')
     
         return redirect('process_order')
     
     return render(request,"process_order.html",{})
+
+
+def not_shipped_dash(request):
+    
+    if request.user.is_authenticated and request.user.is_superuser:
+        orders = Order.objects.filter(shipped=False)
+
+        return render(request,"not_shipped_dash.html",{"orders":orders})
+    else:
+        messages.success(request, 'Access Denied')
+        return redirect('index')
+    
+
+def shipped_dash(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        orders = Order.objects.filter(shipped=True)
+        return render(request,"shipped_dash.html",{"orders":orders})
+    else:
+        messages.success(request, 'Access Denied')
+        return redirect('index')
+    
+
+def orders(request,pk):
+    if request.user.is_authenticated and request.user.is_superuser:
+        order=Order.objects.get(id=pk)
+        items = OrderItem.objects.filter(order=pk)
+        return render(request,"orders.html",{"order":order,"items":items})
+    else:
+        messages.success(request, 'Access Denied')
+        return redirect('index')
