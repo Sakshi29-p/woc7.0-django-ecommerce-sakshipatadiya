@@ -3,6 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import *
 from cart.cart import Cart
+import datetime
+from home.models import Profile
 
 # Create your views here.
 
@@ -93,9 +95,13 @@ def process_order(request):
             create_order_item = OrderItem(order_id=order_id,product_id=product_id,user=user,quantity=quantity,price=price)
             create_order_item.save()
 
+        # deleting from cookies on site
         for key in list(request.session.keys()):
             if key == "session_key":
                 del request.session[key]
+        # deleting from the database
+        current_user = Profile.objects.filter(user__id=request.user.id)
+        current_user.update(old_cart="")
 
         messages.success(request, 'Order processed successfully!')
     
@@ -108,6 +114,13 @@ def not_shipped_dash(request):
     
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=False)
+        if request.POST:
+            num = request.POST['num']
+            order = Order.objects.filter(id=num)
+            now=datetime.datetime.now()
+            order.update(shipped=True,date_shipped=now)
+            messages.success(request,"Shipping Status Updated!!")
+            return redirect('not_shipped_dash')
 
         return render(request,"not_shipped_dash.html",{"orders":orders})
     else:
@@ -118,6 +131,12 @@ def not_shipped_dash(request):
 def shipped_dash(request):
     if request.user.is_authenticated and request.user.is_superuser:
         orders = Order.objects.filter(shipped=True)
+        if request.POST:
+            num = request.POST['num']
+            order = Order.objects.filter(id=num)
+            order.update(shipped=False)
+            messages.success(request,"Shipping Status Updated!!")
+            return redirect('shipped_dash')
         return render(request,"shipped_dash.html",{"orders":orders})
     else:
         messages.success(request, 'Access Denied')
@@ -128,6 +147,20 @@ def orders(request,pk):
     if request.user.is_authenticated and request.user.is_superuser:
         order=Order.objects.get(id=pk)
         items = OrderItem.objects.filter(order=pk)
+        if request.POST:
+            status = request.POST['shipping_status']
+            if status=="true":
+                order=Order.objects.filter(id=pk)
+                now=datetime.datetime.now()
+                order.update(shipped=True,date_shipped=now)
+                messages.success(request,"Shipping Status Updated!!")
+                return redirect('shipped_dash')
+            else:
+                order=Order.objects.filter(id=pk)
+                order.update(shipped=False)
+                messages.success(request,"Shipping Status Updated!!")
+                return redirect('not_shipped_dash')
+
         return render(request,"orders.html",{"order":order,"items":items})
     else:
         messages.success(request, 'Access Denied')
