@@ -13,6 +13,8 @@ body {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
+    max-height: 100vh; /* Ensure it doesn't get cut off */
+    padding: 20px;  
 }
 
 .card {
@@ -20,6 +22,8 @@ body {
     border-radius: 10px;
     padding: 2em;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-height: 100%;
+    overflow-y: auto;
 }
 
 h2.login-register-heading {  /* Add a specific class to target this */

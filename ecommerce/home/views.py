@@ -14,6 +14,14 @@ import json
 
 from cart.cart import Cart
 
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import update_session_auth_hash
+
+# from .forms import UserInfoForm
+
+# from payment.forms import ShippingForm
+
 # Create your views here.
 
 def index(request):
@@ -120,8 +128,62 @@ def allCategory(request):
     return render(request,'allCategory.html',{'categories':categories})
 
 
+@login_required
 def update_user(request):
-    return render(request,'update_user.html',{})
+    if request.method == "POST":
+        user = request.user
+        profile = user.profile
+
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address1 = request.POST.get('address1')
+        address2 = request.POST.get('address2')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        zipcode = request.POST.get('zipcode')
+        country = request.POST.get('country')
+        password = request.POST.get('password')
+
+        # Check if the new username is taken by another user
+        if User.objects.filter(username=username).exclude(pk=user.pk).exists():
+            messages.error(request, 'Username already exists.')
+            return redirect('update_user_profile')
+
+        # Check if the new email is taken by another user
+        if User.objects.filter(email=email).exclude(pk=user.pk).exists():
+            messages.error(request, 'Email already registered.')
+            return redirect('update_user_profile')
+
+        # Update User model fields
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.email = email
+
+        if password:
+            user.set_password(password)
+            update_session_auth_hash(request, user)  # Keep the user logged in after password change
+
+        user.save()
+
+        # Update Profile model fields
+        profile.phone = phone
+        profile.address1 = address1
+        profile.address2 = address2
+        profile.city = city
+        profile.state = state
+        profile.zipcode = zipcode
+        profile.country = country
+        profile.save()
+
+        messages.success(request, 'Profile updated successfully.')
+        return redirect('index')
+
+    return render(request, 'update_user.html')
+
 
 
 def search(request):

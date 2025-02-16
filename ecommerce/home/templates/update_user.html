@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Update Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/authentication.css' %}">
   </head>
@@ -13,9 +13,9 @@
       <form method="post">
         {% csrf_token %}
         <div class="card shadow-lg p-4">
-            <h2 class="text-center mb-4 login-register-heading">Register</h2>
+          <h2 class="text-center mb-4 login-register-heading">Update Profile</h2>
           <hr>
-          
+
           {% if messages %}
             <div class="alert alert-primary" role="alert">
               {% for message in messages %}
@@ -23,41 +23,78 @@
               {% endfor %}
             </div>
           {% endif %}
-          
+
+          <br> <br> <br> <br>
+
           <div class="form-group">
-            <label for="exampleInputFirstname1">First Name</label>
-            <input type="text" class="form-control" name="first_name" id="exampleInputFirstname1" placeholder="Enter First Name">
+            <label for="first_name">First Name</label>
+            <input type="text" class="form-control" name="first_name" id="first_name" value="{{ user.first_name }}" placeholder="Enter First Name">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputLastname1">Last Name</label>
-            <input type="text" class="form-control" name="last_name" id="exampleInputLastname1" placeholder="Enter Last Name">
+            <label for="last_name">Last Name</label>
+            <input type="text" class="form-control" name="last_name" id="last_name" value="{{ user.last_name }}" placeholder="Enter Last Name">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputUsername1">Username</label>
-            <input type="text" class="form-control" name="username" id="exampleInputUsername1" placeholder="Enter Username">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" value="{{ user.username }}" placeholder="Enter Username">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Email Address</label>
-            <input type="email" class="form-control" name="email" id="exampleInputEmail1" placeholder="Enter Email">
+            <label for="email">Email Address</label>
+            <input type="email" class="form-control" name="email" id="email" value="{{ user.email }}" placeholder="Enter Email">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Enter Password">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" name="phone" id="phone" value="{{ user.profile.phone }}" placeholder="Enter Phone Number">
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block">Register</button>
+          <div class="form-group">
+            <label for="address1">Address Line 1</label>
+            <input type="text" class="form-control" name="address1" id="address1" value="{{ user.profile.address1 }}" placeholder="Enter Address Line 1">
+          </div>
+
+          <div class="form-group">
+            <label for="address2">Address Line 2</label>
+            <input type="text" class="form-control" name="address2" id="address2" value="{{ user.profile.address2 }}" placeholder="Enter Address Line 2">
+          </div>
+
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" name="city" id="city" value="{{ user.profile.city }}" placeholder="Enter City">
+          </div>
+
+          <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" class="form-control" name="state" id="state" value="{{ user.profile.state }}" placeholder="Enter State">
+          </div>
+
+          <div class="form-group">
+            <label for="zipcode">Zipcode</label>
+            <input type="text" class="form-control" name="zipcode" id="zipcode" value="{{ user.profile.zipcode }}" placeholder="Enter Zipcode">
+          </div>
+
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" name="country" id="country" value="{{ user.profile.country }}" placeholder="Enter Country">
+          </div>
+
+          <div class="form-group">
+            <label for="password">New Password (Leave blank to keep current password)</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Enter New Password">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
 
           <div class="text-center mt-3">
-            <p>Already have an account? <a href="/login" class="btn btn-link">Login</a></p>
+            <p><a href="{% url 'index' %}" class="btn btn-link">Go Back</a></p>
           </div>
         </div>
       </form>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
